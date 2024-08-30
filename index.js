@@ -1,18 +1,24 @@
 const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
+
 const getGoldPrice = async () => {
   try {
-    const response = await axios.get('https://www.investing.com/commodities/gold');
-    const html = response.data;
-    const $ = cheerio.load(html);
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+    const page = await browser.newPage();
+    await page.goto('https://www.investing.com/commodities/gold');
+    
+    await page.waitForSelector('[data-test="instrument-price-last"]');
+    
+    const goldPrice = await page.$eval('[data-test="instrument-price-last"]', el => el.textContent);
+    console.log('Cotação obtida:', goldPrice);
 
-    const goldPrice = $('.text-5xl\\/9.font-bold.text-\\[\\#232526\\].md\\:text-\\[42px\\].md\\:leading-\\[60px\\]').text();
-
+    await browser.close();
     return goldPrice;
   } catch (error) {
     console.error('Erro ao obter a cotação do ouro:', error);
@@ -24,8 +30,8 @@ app.get('/gold-price', async (req, res) => {
   try {
     const price = await getGoldPrice();
     res.json({ goldPrice: price });
-    console.log("cotação: " + JSON.stringify(price));
   } catch (error) {
+    console.error('Erro ao obter a cotação do ouro na API:', error);
     res.status(500).json({ error: 'Erro ao obter a cotação do ouro' });
   }
 });

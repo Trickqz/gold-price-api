@@ -2,6 +2,11 @@
 
 Esta API permite obter a cotação atual do ouro utilizando dados extraídos do site Investing.com.
 
+## Link da Api Online pelo Railway
+```bash
+https://gold-price-api-production.up.railway.app/gold-price
+```
+
 ## Tecnologias Utilizadas
 
 - **Node.js**: Ambiente de execução para o JavaScript no lado do servidor.

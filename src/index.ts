@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 
 console.log('Iniciando aplicação...');
 console.log(`Porta configurada: ${PORT}`);

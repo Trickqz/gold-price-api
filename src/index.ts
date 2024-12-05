@@ -4,10 +4,15 @@ import * as cheerio from 'cheerio';
 import cors from 'cors';
 
 const app = express();
-const PORT = 8080;
+const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use((req, _, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
 
 app.get('/', (_: Request, res: Response) => {
   res.json({ message: 'API está funcionando!' });
@@ -43,5 +48,5 @@ app.use((_: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 }); 

@@ -23,11 +23,10 @@ const getGoldPrice = async () => {
   }
 };
 
-app.get('/gold-price', async (req, res) => {
+app.get('/gold-price', async (_, res) => {
   try {
     const price = await getGoldPrice();
     res.json({ goldPrice: price });
-    console.log("cotação: " + JSON.stringify(price));
   } catch (error) {
     res.status(500).json({ error: 'Erro ao obter a cotação do ouro' });
   }

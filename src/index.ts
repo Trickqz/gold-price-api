@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -43,5 +43,5 @@ app.use((_: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando`);
 }); 
